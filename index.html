@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<title>LexiQuest — Master Every Word</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"
+
+</head>
+<body>
+<div class="bg-canvas"></div>
+<div class="noise"></div>
+
+<div class="app">
+  <!-- Header -->
+  <header>
+    <div class="logo">Lexi<span>Quest</span></div>
+    <div class="header-stats">
+      <div class="stat-pill" id="totalWordsCount">📚 <strong>—</strong> words</div>
+      <div class="stat-pill" id="bestScoreCount">🏆 Best: <strong>—</strong></div>
+    </div>
+  </header>
+
+  <!-- Nav -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('quiz')">🎯 Practice</button>
+    <button class="nav-tab" onclick="switchTab('library')">📖 Word Library</button>
+    <button class="nav-tab" onclick="switchTab('stats')">📊 Progress</button>
+  </div>
+
+  <!-- ============ QUIZ TAB ============ -->
+  <div id="tab-quiz">
+    <div class="level-bar">
+      <button class="level-btn all active" onclick="setLevel('all')">All Levels</button>
+      <button class="level-btn easy" onclick="setLevel('easy')">🌱 Easy</button>
+      <button class="level-btn moderate" onclick="setLevel('moderate')">🔥 Moderate</button>
+      <button class="level-btn common" onclick="setLevel('common')">⭐ Commonly Used</button>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+
+    <div class="quiz-section" id="quizSection">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- ============ LIBRARY TAB ============ -->
+  <div id="tab-library" style="display:none">
+    <div class="section-header">
+      <div class="section-title">Word Library</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div class="level-bar" style="margin:0">
+          <button class="level-btn all active" id="lib-all" onclick="filterLibrary('all')">All</button>
+          <button class="level-btn easy" id="lib-easy" onclick="filterLibrary('easy')">Easy</button>
+          <button class="level-btn moderate" id="lib-mod" onclick="filterLibrary('moderate')">Moderate</button>
+          <button class="level-btn common" id="lib-com" onclick="filterLibrary('common')">Common</button>
+        </div>
+        <input type="text" class="search-input" placeholder="Search words…" oninput="searchWords(this.value)">
+        <button class="btn-primary" onclick="openAddModal()" style="padding:9px 18px;font-size:0.85rem">+ Add Word</button>
+      </div>
+    </div>
+    <div class="words-grid" id="wordsGrid"></div>
+    <div class="pagination" id="libraryPagination"></div>
+  </div>
+
+  <!-- ============ STATS TAB ============ -->
+  <div id="tab-stats" style="display:none">
+    <div class="section-title" style="margin-bottom:24px">Your Progress</div>
+    <div class="stats-row" id="statsRow"></div>
+    <div id="recentActivity"></div>
+  </div>
+</div>
+
+<!-- FAB -->
+<button class="fab" onclick="openAddModal()" title="Add new word">+</button>
+
+<!-- Add Word Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">Add New Word</div>
+    <div class="modal-sub">Contribute to your personal vocabulary bank</div>
+
+    <div class="form-group">
+      <label class="form-label">Word</label>
+      <input class="form-input" id="inp-word" placeholder="e.g. Ephemeral" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Part of Speech (optional)</label>
+      <input class="form-input" id="inp-pos" placeholder="e.g. adjective, noun…">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Correct Definition / Meaning</label>
+      <input class="form-input" id="inp-correct" placeholder="The correct answer">
+    </div>
+    <div class="form-group">
+      <label class="form-label">3 Wrong Options</label>
+      <div class="options-inputs">
+        <div class="opt-input-wrap"><span class="opt-marker">B</span><input class="form-input" id="inp-w1" placeholder="Wrong option 1"></div>
+        <div class="opt-input-wrap"><span class="opt-marker">C</span><input class="form-input" id="inp-w2" placeholder="Wrong option 2"></div>
+        <div class="opt-input-wrap"><span class="opt-marker">D</span><input class="form-input" id="inp-w3" placeholder="Wrong option 3"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Level</label>
+      <select class="form-select" id="inp-level">
+        <option value="easy">🌱 Easy</option>
+        <option value="moderate">🔥 Moderate</option>
+        <option value="common" selected>⭐ Commonly Used</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Example Sentence (optional)</label>
+      <input class="form-input" id="inp-example" placeholder="Use the word in a sentence…">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveWord()">Save Word</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+</body>
+</html>
