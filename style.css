@@ -1,4 +1,4 @@
-<style>
+
 :root {
   --bg: #0a0a0f;
   --surface: #12121a;
@@ -495,4 +495,4 @@ header {
       font-size: 0.78rem; font-weight: 500; z-index: 999;
     }
     #pwa-offline-toast.show { display: block; }
-  </style>
+
